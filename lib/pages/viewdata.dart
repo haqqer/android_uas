@@ -110,7 +110,8 @@ class _ViewDataState extends State<ViewData> {
                         RaisedButton(
                           color: Colors.red,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => FormData(title: 'Edit Mahasiswa', mahasiswa: widget.mahasiswa)));
+                            deleteData(widget.mahasiswa.id);
+                            Navigator.pop(context);
                           },
                           child: Text('Hapus', style: TextStyle(color: Colors.white)),
                         ),
@@ -126,67 +127,6 @@ class _ViewDataState extends State<ViewData> {
     );
   }
 
-  // Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-  //   return ListView(
-  //     padding: EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-  //     children: snapshot.map((data) => _buildListItem(context, data)).toList()
-  //   );
-  // }
-
-  // Widget _buildListItem(BuildContext context, DocumentSnapshot snapshot) {
-  //   final mahasiswa = Mahasiswa.fromMap(snapshot.data, snapshot.documentID);
-  //   return ListTile(
-  //     onTap: () {
-  //       print(mahasiswa.toMap());
-  //       showAlertDialog(context, mahasiswa);
-  //       // Navigator.push(context, MaterialPageRoute(builder: (context) => FormData(title: 'Edit Mahasiswa', mahasiswa: mahasiswa)));
-  //     },
-  //     leading: Icon(
-  //       Icons.people,
-  //       size: 30,
-  //     ),
-  //     title: Text(mahasiswa.nama),
-  //     subtitle: Text(mahasiswa.nim),
-  //     trailing: GestureDetector(
-  //       onTap: () {
-  //         deleteData(mahasiswa.id);
-  //       },
-  //       child: Icon(Icons.delete),
-  //     ),
-  //   );
-  // }
-
-  // showAlertDialog(BuildContext context, Mahasiswa mahasiswa) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //         return AlertDialog(
-  //             actions: <Widget>[
-  //               FlatButton(
-  //                 child: Text('Lihat'),
-  //                 onPressed: () {
-  //                   print('Lihat');
-  //                 },
-  //               ),
-  //               FlatButton(
-  //                 child: Text('Edit'),
-  //                 onPressed: () {
-  //                   Navigator.pop(context);
-  //                   Navigator.push(context, MaterialPageRoute(builder: (context) => FormData(title: 'Edit Mahasiswa', mahasiswa: mahasiswa)));
-  //                 },              
-  //               ),
-  //               FlatButton(
-  //                 child: Text('Hapus'),
-  //                 onPressed: () {
-  //                   deleteData(mahasiswa.id);
-  //                   Navigator.pop(context);
-  //                 },              
-  //               ),
-  //             ],
-  //       );
-  //     }
-  //   );      
-  // }
   void deleteData(String id) async {
     await db.deleteDocument(id);
   }
