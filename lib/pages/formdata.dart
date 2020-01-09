@@ -1,5 +1,6 @@
 import 'package:androiduas/helpers/firebasehelper.dart';
 import 'package:androiduas/models/mahasiswa.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 class FormData extends StatefulWidget {
@@ -15,6 +16,11 @@ class _FormDataState extends State<FormData> {
   
   final _formKey = GlobalKey<FormState>();
   FirebaseHelper db = FirebaseHelper('android_uas');
+
+  TextEditingController nimController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController semesterController = TextEditingController();
+  TextEditingController ipkController = TextEditingController();  
   // Data Mahasiswa
   String nim;
   String nama;
@@ -22,7 +28,24 @@ class _FormDataState extends State<FormData> {
   double ipk;
 
   _FormDataState(this.title);
+  void showToast(BuildContext context, String message) {
+    Flushbar(
+      message: message,
+      duration: Duration(seconds: 3),
+    )..show(context);
+  }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(widget.mahasiswa != null) {
+      nimController.text = widget.mahasiswa.nim;
+      namaController.text = widget.mahasiswa.nama;
+      semesterController.text = widget.mahasiswa.semester.toString();
+      ipkController.text = widget.mahasiswa.ipk.toString();
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +63,8 @@ class _FormDataState extends State<FormData> {
               Padding(
                 padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                 child: TextFormField(
-                  initialValue: widget.mahasiswa.nim.isNotEmpty ? widget.mahasiswa.nim : '',
+                  controller: nimController,
+                  // initialValue: widget.mahasiswa != null ? widget.mahasiswa.nim : '',
                   decoration: InputDecoration(
                     labelText: 'NIM',                  
                     hintText: 'Masukan NIM',
@@ -58,7 +82,8 @@ class _FormDataState extends State<FormData> {
               Padding(
                 padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                 child: TextFormField(
-                  initialValue: widget.mahasiswa.nama.isNotEmpty ? widget.mahasiswa.nama : '',
+                  controller: namaController,
+                  // initialValue: widget.mahasiswa != null ? widget.mahasiswa.nama : '',
                   decoration: InputDecoration(
                     labelText: 'Nama',                  
                     hintText: 'Masukan Nama',
@@ -76,7 +101,8 @@ class _FormDataState extends State<FormData> {
               Padding(
                 padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                 child: TextFormField(
-                  initialValue: widget.mahasiswa.semester > 0 ? widget.mahasiswa.semester.toString() : '',
+                  controller: semesterController,
+                  // initialValue: widget.mahasiswa != null ? widget.mahasiswa.semester.toString() : '',
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Semester',                  
@@ -95,7 +121,8 @@ class _FormDataState extends State<FormData> {
               Padding(
                 padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                 child: TextFormField(
-                  initialValue: widget.mahasiswa.ipk > 0 ? widget.mahasiswa.ipk.toString() : '',
+                  controller: ipkController,
+                  // initialValue: widget.mahasiswa != null ? widget.mahasiswa.ipk.toString() : '',
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'IPK',                  
@@ -143,7 +170,7 @@ class _FormDataState extends State<FormData> {
                         elevation: 1,
                         child: Text('Batal', textScaleFactor: 1.3),
                         onPressed: () {
-                          print('save');
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -166,9 +193,13 @@ class _FormDataState extends State<FormData> {
     } else {
       result = await db.addDocument(sendMahasiswa);
       if(result.documentID.isNotEmpty) {
-        Navigator.pop(context);
+        nimController.text = '';
+        namaController.text = '';
+        semesterController.text = '';
+        ipkController.text = '';
+        showToast(context, 'Data Berhasil Disimpan');
       } else {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text("snackbar")));
+        showToast(context, 'Data Gagal Disimpan');
       }
     }
 

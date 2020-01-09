@@ -1,5 +1,5 @@
 import 'package:androiduas/pages/formdata.dart';
-import 'package:androiduas/pages/viewdata.dart';
+import 'package:androiduas/pages/listdata.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ViewData()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ListData()));
               },
               child: Card(
                 child: Column(
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                       child: Center(
-                        child: Text('Data Mahasiswa', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
+                        child: Text('Data Mahasiswa', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
                       )
                     )
                   ],
@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                       child: Center(
-                        child: Text('Tambah Mahasiswa', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+                        child: Text('Tambah Mahasiswa', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
                       ),
                     )
                   ],
